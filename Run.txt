@@ -1,0 +1,18 @@
+1. Authentication and Authorization (Python with Flask)
+    cd auth-service
+        python -m venv venv
+        venv\Scripts\activate
+        ip install -r requirements.txt
+    python app.py
+
+2. User Management (Node.js with Express)
+    cd user-service
+        npm init -y
+        npm install
+    node server.js 
+
+x. Interface (Node.js, Express, )
+    cd interfaz-service
+        npm init -y
+        npm install
+    node server.js
