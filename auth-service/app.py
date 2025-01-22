@@ -8,9 +8,13 @@ import hashlib
 import os
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1997Guallaba@db.imfqyzgimtercyyqeqof.supabase.co:5432/postgres'
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    'postgresql://postgres.imfqyzgimtercyyqeqof:1997Guallaba@aws-0-us-west-1.pooler.supabase.com:5432/postgres'
+)
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = 'mysecretkey'
+
 db = SQLAlchemy(app)
 
 # User model

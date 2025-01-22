@@ -8,7 +8,7 @@ const port = 8080;
 // Importing routes
 const userRoutes = require('./routes/user-service');
 const authRoutes = require('./routes/auth-service');
-const catalogRoutes = require('./routes/catalog-service');  // Agregamos las rutas de catalog-service
+const catalogRoutes = require('./routes/catalog-service');
 
 // Serving static files (such as index.html)
 app.use(express.static(path.join(__dirname, 'public')));

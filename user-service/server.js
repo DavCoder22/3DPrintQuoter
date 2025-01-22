@@ -7,7 +7,7 @@ const port = 5002;
 
 // Connecting to PostgreSQL (Supabase)
 const pool = new Pool({
-    connectionString: 'postgresql://postgres:1997Guallaba@db.imfqyzgimtercyyqeqof.supabase.co:5432/postgres',
+    connectionString: 'postgresql://postgres.imfqyzgimtercyyqeqof:1997Guallaba@aws-0-us-west-1.pooler.supabase.com:5432/postgres?pool_mode=session',
 });
 
 app.use(express.json()); // For the server to accept JSON
