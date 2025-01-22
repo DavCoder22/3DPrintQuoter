@@ -3,7 +3,7 @@ const { Pool } = require('pg');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');  // We use crypto to create hashes
 const app = express();
-const port = 3000;
+const port = 5002;
 
 // Connecting to PostgreSQL (Supabase)
 const pool = new Pool({

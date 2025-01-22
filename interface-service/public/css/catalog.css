@@ -1,0 +1,53 @@
+/* General Catalog Page Styles */
+.catalog-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+}
+
+.catalog-item {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    margin: 20px;
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+.catalog-item:hover {
+    transform: scale(1.05);
+}
+
+.catalog-item img {
+    max-width: 100%;
+    border-radius: 8px 8px 0 0;
+}
+
+.catalog-item h3 {
+    font-size: 1.5rem;
+    margin: 15px 0;
+}
+
+.catalog-item p {
+    font-size: 1rem;
+    color: #555;
+    margin: 10px 0 20px;
+}
+
+.catalog-item button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 100%;
+}
+
+.catalog-item button:hover {
+    background-color: #45a049;
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Model Catalog</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/catalog.css">
+</head>
+<body>
+    <h1>3D Model Catalog</h1>
+
+    <!-- Form to add a 3D model -->
+    <div class="form-container">
+        <h2>Add Model</h2>
+        <form id="addModelForm">
+            <label for="name">Model Name</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="description">Description</label>
+            <input type="text" id="description" name="description" required>
+
+            <label for="format">Format (e.g., STL, OBJ, etc.)</label>
+            <input type="text" id="format" name="format" required>
+
+            <label for="createdBy">Created By</label>
+            <input type="text" id="createdBy" name="createdBy" required>
+
+            <label for="tags">Tags (comma-separated)</label>
+            <input type="text" id="tags" name="tags" required>
+
+            <button type="submit">Add Model</button>
+        </form>
+        <div id="addModelMessage" class="error-message"></div>
+    </div>
+
+    <!-- List of Models -->
+    <div class="form-container">
+        <h2>Available Models</h2>
+        <button onclick="loadModels()">Load Models</button>
+        <div id="modelsList"></div>
+    </div>
+
+    <!-- Model Details -->
+    <div class="form-container">
+        <h2>Model Details</h2>
+        <label for="modelName">Model Name</label>
+        <input type="text" id="modelName" required>
+        <button onclick="getModelDetails()">View Model</button>
+        <div id="modelDetails"></div>
+    </div>
+
+    <script>
+        // Function to add a model
+        document.getElementById('addModelForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const modelData = {
+                name: document.getElementById('name').value,
+                description: document.getElementById('description').value,
+                format: document.getElementById('format').value,
+                createdBy: document.getElementById('createdBy').value,
+                tags: document.getElementById('tags').value.split(',').map(tag => tag.trim())
+            };
+
+            fetch('/models', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(modelData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    document.getElementById('addModelMessage').textContent = 'Model added successfully!';
+                    document.getElementById('addModelMessage').classList.remove('error-message');
+                    document.getElementById('addModelMessage').classList.add('success-message');
+                } else {
+                    document.getElementById('addModelMessage').textContent = 'Failed to add model.';
+                }
+            })
+            .catch(error => {
+                document.getElementById('addModelMessage').textContent = 'Failed to add model.';
+            });
+        });
+
+        // Function to load all models
+        function loadModels() {
+            fetch('/models')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.models && data.models.length > 0) {
+                        const modelsList = document.getElementById('modelsList');
+                        modelsList.innerHTML = '<ul>' + data.models.map(model => `<li>${model.name} - ${model.description}</li>`).join('') + '</ul>';
+                    } else {
+                        document.getElementById('modelsList').textContent = 'No models available.';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('modelsList').textContent = 'Failed to load models.';
+                });
+        }
+
+        // Function to get model details
+        function getModelDetails() {
+            const modelName = document.getElementById('modelName').value;
+
+            fetch(`/models/${modelName}`)
+                .then(response => response.json())
+                .then(data => {
+                    const modelDetails = document.getElementById('modelDetails');
+                    if (data.model) {
+                        modelDetails.innerHTML = `<p><strong>Name:</strong> ${data.model.name}</p>
+                                                  <p><strong>Description:</strong> ${data.model.description}</p>
+                                                  <p><strong>Format:</strong> ${data.model.format}</p>
+                                                  <p><strong>Created By:</strong> ${data.model.createdBy}</p>
+                                                  <p><strong>Tags:</strong> ${data.model.tags.join(', ')}</p>`;
+                    } else {
+                        modelDetails.textContent = 'Model not found.';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('modelDetails').textContent = 'Failed to fetch model details.';
+                });
+        }
+    </script>
+</body>
+</html>

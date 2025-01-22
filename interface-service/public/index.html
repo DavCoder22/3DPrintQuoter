@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Printing Model Shop</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="hero">
+        <h1>Welcome to 3D Model Shop</h1>
+        <p>Explore, customize, and print your favorite 3D models!</p>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="navbar">
+            <div class="logo">
+                <a href="index.html">3D Model Shop</a>
+            </div>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="catalog.html">Catalog</a></li>
+                    <!-- If logged in, show username and the settings icon, else show login/register -->
+                    <li id="login-register-link" style="display: none;"><a href="login.html">Login</a> / <a href="register.html">Register</a></li>
+                    <li id="user-settings" style="display: none;">
+                        <span id="username"></span> 
+                        <span id="settings-icon">&#9881;</span> <!-- Gear icon -->
+                        <div id="settings-dropdown" class="dropdown">
+                            <a href="profile.html">Profile</a>
+                            <a href="#" id="logout-link">Logout</a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Featured Models Section -->
+    <div class="container">
+        <div class="card">
+            <img src="images/model1.jpg" alt="Model 1">
+            <h3>Modern Vase</h3>
+            <p>A sleek and elegant vase design for your home.</p>
+            <button onclick="window.location.href='/catalog.html'">View Details</button>
+        </div>
+
+        <div class="card">
+            <img src="images/model2.jpg" alt="Model 2">
+            <h3>Geometric Lamp</h3>
+            <p>An artistic lamp design to brighten your space.</p>
+            <button onclick="window.location.href='/catalog.html'">View Details</button>
+        </div>
+
+        <div class="card">
+            <img src="images/model3.jpg" alt="Model 3">
+            <h3>Custom Keychain</h3>
+            <p>Create personalized keychains for you or your loved ones.</p>
+            <button onclick="window.location.href='/catalog.html'">View Details</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 3D Model Shop. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Check if the user is logged in
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            const username = localStorage.getItem('username');
+
+            const userSettings = document.getElementById('user-settings');
+            const settingsIcon = document.getElementById('settings-icon');
+            const settingsDropdown = document.getElementById('settings-dropdown');
+            const loginRegisterLink = document.getElementById('login-register-link');
+            const logoutLink = document.getElementById('logout-link');
+            
+            if (token && username) {
+                // Show user settings and username if logged in
+                document.getElementById('user-settings').style.display = 'block';
+                document.getElementById('username').innerText = username;
+                document.getElementById('login-register-link').style.display = 'none';
+            } else {
+                // Show login/register links if not logged in
+                document.getElementById('login-register-link').style.display = 'block';
+                document.getElementById('user-settings').style.display = 'none';
+            }
+
+            // Toggle dropdown visibility when clicking the settings icon
+            settingsIcon.addEventListener('click', (event) => {
+                // Prevent the event from propagating to document click listener
+                event.stopPropagation();
+
+                userSettings.classList.toggle('open');
+
+                if (userSettings.classList.contains('open')) {
+                    // Get the position of the settings icon
+                    const rect = settingsIcon.getBoundingClientRect();
+                    
+                    // Position the dropdown below the settings icon
+                    const dropdownWidth = settingsDropdown.offsetWidth;
+                    const screenWidth = window.innerWidth;
+
+                    // Check if the dropdown will exceed the screen width
+                    if (rect.left + dropdownWidth > screenWidth) {
+                        // Position the dropdown to the left of the icon if it would go off-screen
+                        settingsDropdown.style.left = `${rect.left - dropdownWidth + settingsIcon.offsetWidth}px`;
+                    } else {
+                        // Position it to the right of the icon
+                        settingsDropdown.style.left = `${rect.left}px`;
+                    }
+
+                    settingsDropdown.style.top = `${rect.bottom + window.scrollY}px`; // Position just below the icon
+                }
+            });
+
+            // Logout function
+            logoutLink.addEventListener('click', () => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('username');
+                window.location.href = 'index.html'; // Redirect to home after logout
+            });
+
+            // Close the dropdown if clicked outside
+            document.addEventListener('click', (event) => {
+                if (!userSettings.contains(event.target) && !settingsIcon.contains(event.target)) {
+                    userSettings.classList.remove('open');
+                }
+            });
+        });
+    </script> 
+</body>
+</html>

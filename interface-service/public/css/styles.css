@@ -1,78 +1,109 @@
-/* CSS Style File */
-
+/* General Styles */
 body {
+    margin: 0;
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
 }
 
-h1, h2 {
-    color: #333;
+.hero {
     text-align: center;
-}
-
-.form-container {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-    margin: 20px;
-    width: 300px;
-}
-
-label {
-    font-weight: bold;
-    color: #555;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 8px 0;
-    border-radius: 4px;
-    border: 1px solid #ddd;
-    font-size: 16px;
-}
-
-button {
+    padding: 50px;
     background-color: #4CAF50;
     color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 4px;
-    font-size: 16px;
+    width: 100vw;
+    box-sizing: border-box;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin: 0;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    margin: 10px 0 20px;
+}
+
+/* Navigation Bar Styles */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #333;
+    color: white;
+}
+
+.navbar .logo a {
+    font-size: 1.5rem;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar .nav-links ul {
+    list-style: none;
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar .nav-links li {
+    margin: 0 10px;
+}
+
+.navbar .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.navbar .nav-links a:hover {
+    text-decoration: underline;
+}
+
+/* User Settings and Dropdown Styles */
+#settings-icon {
     cursor: pointer;
+    margin-left: 10px;
+}
+
+#settings-dropdown {
+    display: none; /* Initially hidden */
+    position: absolute;
+    top: 30px; /* Adjust this based on your layout */
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    min-width: 120px;
+    text-align: left;
+}
+
+#settings-dropdown a {
+    display: block;
+    padding: 10px;
+    color: #333;
+    text-decoration: none;
+}
+
+#settings-dropdown a:hover {
+    background-color: #f4f4f4;
+}
+
+/* Adjust position of dropdown when visible */
+#user-settings.open #settings-dropdown {
+    display: block;
+}
+
+
+/* Pie de página */
+footer {
+    background-color: #333; /* Mismo color de la barra de navegación */
+    color: white; /* Color de texto en el pie de página */
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
     width: 100%;
-}
-
-button:hover {
-    background-color: #45a049;
-}
-
-.form-container p {
-    text-align: center;
-    font-size: 14px;
-    color: #888;
-}
-
-.error-message {
-    color: red;
-    font-size: 14px;
-    text-align: center;
-}
-
-.success-message {
-    color: green;
-    font-size: 14px;
-    text-align: center;
-}
-
-a {
-    color: #4CAF50;
 }

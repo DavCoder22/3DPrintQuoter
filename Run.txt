@@ -2,7 +2,7 @@
     cd auth-service
         python -m venv venv
         venv\Scripts\activate
-        ip install -r requirements.txt
+        pip install -r requirements.txt
     python app.py
 
 2. User Management (Node.js with Express)
@@ -11,8 +11,12 @@
         npm install
     node server.js 
 
+1997999
+MicroserviceDev
+
 x. Interface (Node.js, Express, )
-    cd interfaz-service
+    cd interface-service
         npm init -y
         npm install
     node server.js
+    
