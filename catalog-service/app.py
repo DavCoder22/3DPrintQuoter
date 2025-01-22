@@ -4,18 +4,18 @@ import os
 
 app = Flask(__name__)
 
-# Configuración de MongoDB
+# MongoDB Configuration
 MONGO_URI = "mongodb+srv://MicroserviceDev:1997999@cluster0.hdqpd.mongodb.net/CatalogServiceDB?retryWrites=true&w=majority"
 client = MongoClient(MONGO_URI)
 db = client["CatalogServiceDB"]
-models_collection = db["models"]  # Colección para almacenar los modelos 3D
+models_collection = db["models"]  # Collection to store 3D models
 
-# Ruta de prueba
+# Test route
 @app.route("/")
 def home():
     return jsonify({"message": "Welcome to the Catalog Service!"})
 
-# Ruta para agregar un nuevo modelo 3D
+# Route to add a new 3D model
 @app.route("/models", methods=["POST"])
 def add_model():
     try:
@@ -25,16 +25,16 @@ def add_model():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Ruta para obtener todos los modelos 3D
+# Route to get all 3D models
 @app.route("/models", methods=["GET"])
 def get_models():
     try:
-        models = list(models_collection.find({}, {"_id": 0}))  # Excluir el campo _id
+        models = list(models_collection.find({}, {"_id": 0}))  # Exclude the _id field
         return jsonify({"models": models}), 200
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Ruta para obtener un modelo 3D específico por su nombre
+# Route to get a specific 3D model by its name
 @app.route("/models/<string:model_name>", methods=["GET"])
 def get_model(model_name):
     try:
@@ -46,7 +46,7 @@ def get_model(model_name):
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
-# Ruta para eliminar un modelo 3D por su nombre
+# Route to delete a 3D model by its name
 @app.route("/models/<string:model_name>", methods=["DELETE"])
 def delete_model(model_name):
     try:
@@ -60,7 +60,7 @@ def delete_model(model_name):
 
 if __name__ == "__main__":
     try:
-        # Verificar conexión a MongoDB al iniciar
+        # Check MongoDB connection on startup
         client.admin.command("ping")
         print("Connected to MongoDB Atlas")
     except Exception as e:
