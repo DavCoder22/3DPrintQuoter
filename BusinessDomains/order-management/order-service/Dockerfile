@@ -1,23 +1,10 @@
-# Usar una imagen base oficial de Go 1.20
-FROM golang:1.20-alpine
-
-# Establecer el directorio de trabajo dentro del contenedor
+FROM golang:1.23 AS builder
 WORKDIR /app
-
-# Copiar los archivos go.mod y go.sum
-COPY go.mod go.sum ./
-
-# Descargar las dependencias
-RUN go mod download
-
-# Copiar el resto del código fuente
 COPY . .
+RUN go mod download
+RUN CGO_ENABLED=0 GOOS=linux go build -o order-service ./src/main.go
 
-# Construir la aplicación
-RUN go build -o main .
-
-# Exponer el puerto en el que la aplicación escuchará
-EXPOSE 8080
-
-# Comando para ejecutar la aplicación
-CMD ["./main"]
+FROM alpine:latest
+WORKDIR /app
+COPY --from=builder /app/order-service .
+CMD ["./order-service"]
