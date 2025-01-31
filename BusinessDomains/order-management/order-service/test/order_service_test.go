@@ -53,7 +53,10 @@ func TestCreateOrderHandler(t *testing.T) {
 		},
 	}
 
-	mockService.On("CreateOrder", mock.Anything, order).Return(nil)
+	// Ajustar las expectativas para que coincidan con los argumentos reales
+	mockService.On("CreateOrder", mock.Anything, mock.MatchedBy(func(o *models.Order) bool {
+		return o.ID == order.ID && o.UserID == order.UserID && o.Status == order.Status && o.Total == order.Total
+	})).Return(nil)
 
 	w := httptest.NewRecorder()
 	c, _ := gin.CreateTestContext(w)
