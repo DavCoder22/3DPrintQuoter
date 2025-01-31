@@ -10,10 +10,10 @@ import (
 )
 
 type OrderHandler struct {
-	service *service.OrderService
+	service service.OrderServiceInterface
 }
 
-func NewOrderHandler(s *service.OrderService) *OrderHandler {
+func NewOrderHandler(s service.OrderServiceInterface) *OrderHandler {
 	return &OrderHandler{service: s}
 }
 
@@ -35,6 +35,26 @@ func (h *OrderHandler) CreateOrder(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, req)
+}
+
+func (h *OrderHandler) GetOrder(c *gin.Context) {
+	orderID := c.Param("id")
+	order, err := h.service.GetOrder(c.Request.Context(), orderID)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"error": "Pedido no encontrado"})
+		return
+	}
+	c.JSON(http.StatusOK, order)
+}
+
+func (h *OrderHandler) UpdateOrderStatus(c *gin.Context) {
+	orderID := c.Param("id")
+	newStatus := models.OrderStatus(c.Query("status")) // Convertir a models.OrderStatus
+	if err := h.service.UpdateOrderStatus(c.Request.Context(), orderID, newStatus); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Error actualizando estado del pedido"})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "Estado del pedido actualizado"})
 }
 
 func generateOrderID() string {

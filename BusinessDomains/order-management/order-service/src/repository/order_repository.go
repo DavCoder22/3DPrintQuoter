@@ -4,7 +4,6 @@ import (
 	"context"
 	"order-management/order-service/src/models"
 
-	"github.com/jackc/pgx/v5"
 	"github.com/jackc/pgx/v5/pgxpool"
 )
 
@@ -17,7 +16,7 @@ func NewOrderRepository(db *pgxpool.Pool) *OrderRepository {
 }
 
 func (r *OrderRepository) CreateOrder(ctx context.Context, order *models.Order) error {
-	tx, err := r.db.BeginTx(ctx, pgx.TxOptions{})
+	tx, err := r.db.Begin(ctx)
 	if err != nil {
 		return err
 	}

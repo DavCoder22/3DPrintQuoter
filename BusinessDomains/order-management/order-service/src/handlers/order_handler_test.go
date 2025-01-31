@@ -1,12 +1,9 @@
-package test
+package handlers
 
 import (
-	"bytes"
 	"context"
-	"io"
 	"net/http"
 	"net/http/httptest"
-	"order-management/order-service/src/handlers"
 	"order-management/order-service/src/models"
 	"testing"
 
@@ -40,7 +37,7 @@ func (m *MockOrderService) UpdateOrderStatus(ctx context.Context, orderID string
 
 func TestCreateOrderHandler(t *testing.T) {
 	mockService := new(MockOrderService)
-	handler := handlers.NewOrderHandler(mockService)
+	handler := NewOrderHandler(mockService)
 
 	order := &models.Order{
 		ID:     "ORD-12345",
@@ -59,10 +56,6 @@ func TestCreateOrderHandler(t *testing.T) {
 	c, _ := gin.CreateTestContext(w)
 	c.Request, _ = http.NewRequest("POST", "/orders", nil)
 
-	// Simular el cuerpo de la solicitud JSON
-	c.Request.Header.Set("Content-Type", "application/json")
-	c.Request.Body = io.NopCloser(bytes.NewBufferString(`{"user_id": "user1", "items": [{"product_id": "prod1", "quantity": 1, "price": 50.0}, {"product_id": "prod2", "quantity": 2, "price": 25.0}]}`))
-
 	handler.CreateOrder(c)
 
 	assert.Equal(t, http.StatusCreated, w.Code)
@@ -71,7 +64,7 @@ func TestCreateOrderHandler(t *testing.T) {
 
 func TestGetOrderHandler(t *testing.T) {
 	mockService := new(MockOrderService)
-	handler := handlers.NewOrderHandler(mockService)
+	handler := NewOrderHandler(mockService)
 
 	order := &models.Order{
 		ID:     "ORD-12345",
@@ -99,7 +92,7 @@ func TestGetOrderHandler(t *testing.T) {
 
 func TestUpdateOrderStatusHandler(t *testing.T) {
 	mockService := new(MockOrderService)
-	handler := handlers.NewOrderHandler(mockService)
+	handler := NewOrderHandler(mockService)
 
 	mockService.On("UpdateOrderStatus", mock.Anything, "ORD-12345", models.StatusShipped).Return(nil)
 

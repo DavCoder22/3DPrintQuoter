@@ -1,6 +1,8 @@
 package config
 
 import (
+	"log"
+
 	"github.com/spf13/viper"
 )
 
@@ -19,13 +21,17 @@ func LoadConfig(path string) (config Config, err error) {
 	viper.SetConfigName("app")
 	viper.SetConfigType("env")
 
-	viper.AutomaticEnv()
+	viper.AutomaticEnv() // Permite que Viper lea variables de entorno
 
-	err = viper.ReadInConfig()
-	if err != nil {
+	if err = viper.ReadInConfig(); err != nil {
+		log.Printf("Error reading config file, %s", err)
 		return
 	}
 
-	err = viper.Unmarshal(&config)
-	return
+	if err = viper.Unmarshal(&config); err != nil {
+		log.Printf("Unable to decode into struct, %v", err)
+		return
+	}
+
+	return config, nil
 }
